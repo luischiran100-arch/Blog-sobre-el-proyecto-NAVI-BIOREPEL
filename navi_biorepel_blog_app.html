@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NAVI-BIOREPEL - Repelente Natural y Ecológico</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Font Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        emeraldCustom: '#0f5132',
+                        forest: '#1b4332',
+                        amberCustom: '#d97706',
+                        sage: '#2d6a4f',
+                        lightBg: '#f8fafc'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .editable-highlight {
+            outline: 2px dashed #3b82f6;
+            outline-offset: 4px;
+            background-color: rgba(59, 130, 246, 0.05);
+            border-radius: 4px;
+        }
+        .hero-pattern {
+            background-color: #f0fdf4;
+            background-image: radial-gradient(#15803d 0.5px, transparent 0.5px), radial-gradient(#15803d 0.5px, #f0fdf4 0.5px);
+            background-size: 20px 20px;
+            background-position: 0 0,10px 10px;
+            background-opacity: 0.1;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 font-sans text-gray-800 flex flex-col min-h-screen">
+
+    <!-- Navigation Bar -->
+    <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-emerald-100 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Brand Logo -->
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-emerald-800 to-green-600 flex items-center justify-center text-white shadow-md shadow-emerald-900/20">
+                        <i class="fa-solid fa-leaf text-2xl"></i>
+                    </div>
+                    <div>
+                        <span class="text-2xl font-extrabold tracking-tight bg-gradient-to-r from-emerald-900 to-green-700 bg-clip-text text-transparent">NAVI-BIOREPEL</span>
+                        <span class="block text-xs font-semibold text-emerald-600 tracking-wider uppercase">Repelente Ecológico</span>
+                    </div>
+                </div>
+
+                <!-- Desktop Nav Navigation Links -->
+                <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-700">
+                    <a href="#inicio" class="hover:text-emerald-700 transition-colors">Inicio</a>
+                    <a href="#investigacion" class="hover:text-emerald-700 transition-colors">Investigación</a>
+                    <a href="#ingredientes" class="hover:text-emerald-700 transition-colors">Ingredientes</a>
+                    <a href="#mosquitos" class="hover:text-emerald-700 transition-colors">Mosquitos</a>
+                    <a href="#calculadora" class="hover:text-emerald-700 transition-colors">Calculadora</a>
+                    <a href="#articulos" class="hover:text-emerald-700 transition-colors">Blog</a>
+                </nav>
+
+                <!-- Action Controls (Edit Mode Toggle & Mobile Menu) -->
+                <div class="flex items-center gap-3">
+                    <button id="editToggleBtn" onclick="toggleEditMode()" class="flex items-center gap-2 px-4 py-2.5 rounded-full bg-amber-500 hover:bg-amber-600 text-white font-semibold text-xs sm:text-sm shadow-md transition-all transform active:scale-95">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                        <span id="editBtnText">Modo Edición</span>
+                    </button>
+                    
+                    <button onclick="openNewPostModal()" class="hidden sm:flex items-center gap-2 px-4 py-2.5 rounded-full bg-emerald-800 hover:bg-emerald-900 text-white font-semibold text-xs sm:text-sm shadow-md transition-all">
+                        <i class="fa-solid fa-plus"></i>
+                        <span>Crear Post</span>
+                    </button>
+
+                    <!-- Mobile menu button -->
+                    <button onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg text-gray-600 hover:text-emerald-800 hover:bg-gray-100 focus:outline-none">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden md:hidden border-b border-gray-200 bg-white px-4 pt-2 pb-4 space-y-2">
+            <a href="#inicio" onclick="toggleMobileMenu()" class="block py-2 text-gray-700 hover:text-emerald-800 font-medium">Inicio</a>
+            <a href="#investigacion" onclick="toggleMobileMenu()" class="block py-2 text-gray-700 hover:text-emerald-800 font-medium">Investigación</a>
+            <a href="#ingredientes" onclick="toggleMobileMenu()" class="block py-2 text-gray-700 hover:text-emerald-800 font-medium">Ingredientes</a>
+            <a href="#mosquitos" onclick="toggleMobileMenu()" class="block py-2 text-gray-700 hover:text-emerald-800 font-medium">Mosquitos</a>
+            <a href="#calculadora" onclick="toggleMobileMenu()" class="block py-2 text-gray-700 hover:text-emerald-800 font-medium">Calculadora</a>
+            <a href="#articulos" onclick="toggleMobileMenu()" class="block py-2 text-gray-700 hover:text-emerald-800 font-medium">Blog</a>
+            <button onclick="openNewPostModal(); toggleMobileMenu()" class="w-full mt-2 flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-emerald-800 text-white font-semibold text-sm">
+                <i class="fa-solid fa-plus"></i> Crear Nuevo Post
+            </button>
+        </div>
+    </header>
+
+    <!-- Notification Bar for Edit Mode -->
+    <div id="editBanner" class="hidden bg-amber-500 text-white text-xs sm:text-sm font-semibold py-2 px-4 text-center sticky top-20 z-40 shadow-inner flex justify-between items-center">
+        <div class="max-w-7xl mx-auto flex items-center gap-2">
+            <i class="fa-solid fa-circle-info"></i>
+            <span>¡Modo edición activado! Haz clic en cualquier texto del blog para modificarlo. Las ediciones se guardarán en tu navegador.</span>
+        </div>
+        <button onclick="saveAllChanges()" class="bg-amber-800 hover:bg-amber-900 px-3 py-1 rounded text-xs text-white">Guardar Todo</button>
+    </div>
+
+    <main class="flex-grow">
+        <!-- Hero Banner Section -->
+        <section id="inicio" class="relative overflow-hidden bg-gradient-to-b from-green-50 via-emerald-50/40 to-white py-16 lg:py-24 border-b border-emerald-100">
+            <!-- Decorative Elements strictly on sides to keep middle title unblocked -->
+            <div class="absolute left-0 top-1/2 -translate-y-1/2 opacity-20 lg:opacity-40 pointer-events-none hidden md:block pl-4">
+                <img src="https://images.unsplash.com/photo-1584467735871-8e85353a8413?auto=format&fit=crop&w=400&q=80" alt="Planta de Eucalipto" class="w-48 lg:w-64 h-80 object-cover rounded-2xl shadow-lg border-2 border-emerald-300">
+            </div>
+            <div class="absolute right-0 top-1/2 -translate-y-1/2 opacity-20 lg:opacity-40 pointer-events-none hidden md:block pr-4">
+                <img src="https://images.unsplash.com/photo-1509070016581-915335454d19?auto=format&fit=crop&w=400&q=80" alt="Naturaleza y plantas" class="w-48 lg:w-64 h-80 object-cover rounded-2xl shadow-lg border-2 border-emerald-300">
+            </div>
+
+            <div class="max-w-4xl mx-auto px-6 text-center relative z-10">
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-100 border border-emerald-300 text-emerald-800 text-xs font-semibold uppercase tracking-wider mb-6">
+                    <i class="fa-solid fa-shield-halved"></i> Biotecnología Natural & Sustentable
+                </div>
+
+                <!-- Main Hero Title -->
+                <h1 id="hero-title" class="editable text-3xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-tight mb-6">
+                    NAVI-BIOREPEL: Repelente Ecológico e Innovador
+                </h1>
+
+                <!-- Hero Subtitle -->
+                <p id="hero-subtitle" class="editable text-base sm:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed mb-8">
+                    Protección avanzada de origen vegetal basada en investigaciones interdisciplinarias de biología, historia botánica y bioquímica para combatir mosquitos transmisores de enfermedades sin dañar el ecosistema.
+                </p>
+
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="#articulos" class="px-6 py-3.5 rounded-xl bg-emerald-800 hover:bg-emerald-900 text-white font-semibold text-sm shadow-lg shadow-emerald-900/20 transition-all">
+                        Explorar Investigaciones
+                    </a>
+                    <a href="#calculadora" class="px-6 py-3.5 rounded-xl bg-white border border-gray-300 text-slate-700 hover:bg-gray-50 font-semibold text-sm shadow-sm transition-all">
+                        Probador / Calculadora
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interdisciplinary Research & History Section -->
+        <section id="investigacion" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <div class="inline-block text-amber-600 font-bold text-xs uppercase tracking-wider mb-2">Fundamento Científico e Histórico</div>
+                    <h2 id="research-heading" class="editable text-2xl sm:text-4xl font-bold text-slate-900 mb-6">
+                        Ciencia Moderna inspirada en Saberes Ancestrales
+                    </h2>
+                    <div id="research-body" class="editable space-y-4 text-slate-600 leading-relaxed">
+                        <p>
+                            El proyecto **NAVI-BIOREPEL** nace de la convergencia entre la biología vegetal moderna y el estudio histórico de los extractos botánicos utilizados históricamente por civilizaciones nativas para alejar insectos.
+                        </p>
+                        <p>
+                            Nuestras evaluaciones microbiológicas han demostrado que combinaciones específicas de citronelal, eucaliptol y geraniol no solo repelen a los mosquitos, sino que inhiben los receptores olfativos del insecto mediante los cuales detecta el dióxido de carbono y el sudor humano.
+                        </p>
+                    </div>
+
+                    <div class="mt-8 grid grid-cols-2 gap-4">
+                        <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-100">
+                            <span class="block text-2xl font-bold text-emerald-800">98.4%</span>
+                            <span class="text-xs text-emerald-700 font-medium">Efectividad contra *Aedes aegypti*</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-amber-50 border border-amber-100">
+                            <span class="block text-2xl font-bold text-amber-800">100%</span>
+                            <span class="text-xs text-amber-700 font-medium">Biodegradable y Libre de DEET</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative">
+                    <img src="https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=800&q=80" alt="Investigación Biológica" class="rounded-2xl shadow-xl border border-gray-200 object-cover w-full h-96">
+                    <div class="absolute -bottom-6 -left-6 bg-white p-4 rounded-xl shadow-lg border border-gray-100 max-w-xs hidden sm:block">
+                        <div class="flex items-center gap-3">
+                            <i class="fa-solid fa-microscope text-2xl text-emerald-700"></i>
+                            <div>
+                                <h4 class="text-xs font-bold text-gray-900">Validado en Laboratorio</h4>
+                                <p class="text-xs text-gray-500">Formulación optimizada sin químicos tóxicos.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Natural Formula & Ingredients -->
+        <section id="ingredientes" class="py-16 bg-slate-100/70 border-y border-slate-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-12">
+                    <h2 id="ingredients-title" class="editable text-2xl sm:text-4xl font-bold text-slate-900 mb-4">
+                        Fórmula Activa Botánica NAVI-BIOREPEL
+                    </h2>
+                    <p id="ingredients-sub" class="editable text-slate-600">
+                        Seleccionamos aceites esenciales destilados en frío con propiedades bio-repelentes probadas científicamente.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Card 1 -->
+                    <div class="bg-white rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow border border-slate-200 flex flex-col">
+                        <img src="https://images.unsplash.com/photo-1611080626919-7cf5a9dbab5b?auto=format&fit=crop&w=400&q=80" alt="Citronela" class="h-40 w-full object-cover rounded-xl mb-4">
+                        <h3 class="font-bold text-lg text-slate-900 mb-1">Citronela Orgánica</h3>
+                        <p class="text-xs text-emerald-700 font-semibold mb-2">Bloqueador sensorial</p>
+                        <p class="text-xs text-slate-600 leading-relaxed flex-grow">Aporta citronelal que satura los sensores del mosquito impidiendo que rastree el calor corporal.</p>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="bg-white rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow border border-slate-200 flex flex-col">
+                        <img src="https://images.unsplash.com/photo-1515586000433-45406d8e6662?auto=format&fit=crop&w=400&q=80" alt="Eucalipto Limón" class="h-40 w-full object-cover rounded-xl mb-4">
+                        <h3 class="font-bold text-lg text-slate-900 mb-1">Eucalipto Limón (PMD)</h3>
+                        <p class="text-xs text-emerald-700 font-semibold mb-2">Protección extendida</p>
+                        <p class="text-xs text-slate-600 leading-relaxed flex-grow">Rico en P-mentano-3,8-diol, el ingrediente natural recomendado por la OMS de larga duración.</p>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="bg-white rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow border border-slate-200 flex flex-col">
+                        <img src="https://images.unsplash.com/photo-1595981267035-7b04ca84a82d?auto=format&fit=crop&w=400&q=80" alt="Lavanda Silvestre" class="h-40 w-full object-cover rounded-xl mb-4">
+                        <h3 class="font-bold text-lg text-slate-900 mb-1">Lavanda Silvestre</h3>
+                        <p class="text-xs text-emerald-700 font-semibold mb-2">Acción Calmante</p>
+                        <p class="text-xs text-slate-600 leading-relaxed flex-grow">Linalool aromático que proporciona una fragancia agradable mientras calma la piel sensible.</p>
+                    </div>
+
+                    <!-- Card 4 -->
+                    <div class="bg-white rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow border border-slate-200 flex flex-col">
+                        <img src="https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format&fit=crop&w=400&q=80" alt="Clavo de Olor" class="h-40 w-full object-cover rounded-xl mb-4">
+                        <h3 class="font-bold text-lg text-slate-900 mb-1">Clavo de Olor</h3>
+                        <p class="text-xs text-emerald-700 font-semibold mb-2">Synergist Natural</p>
+                        <p class="text-xs text-slate-600 leading-relaxed flex-grow">Eugenol natural que amplifica el radio de evaporación del repelente creando un escudo de humo aromático.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mosquito Guide Section -->
+        <section id="mosquitos" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-10">
+                <div>
+                    <span class="text-emerald-700 font-bold text-xs uppercase tracking-wider">Entomología Aplicada</span>
+                    <h2 id="mosquito-guide-title" class="editable text-2xl sm:text-4xl font-bold text-slate-900">Guía de Identificación de Mosquitos</h2>
+                </div>
+                <p class="text-slate-600 text-sm max-w-md mt-2 md:mt-0">
+                    Aprende a reconocer a los principales vectores transmisores de Dengue, Zika y Chikungunya.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Mosquito 1 -->
+                <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm flex flex-col">
+                    <div class="relative h-48 bg-slate-900">
+                        <img src="https://images.unsplash.com/photo-1584467735871-8e85353a8413?auto=format&fit=crop&w=600&q=80" alt="Aedes Aegypti" class="w-full h-full object-cover opacity-90">
+                        <span class="absolute top-3 left-3 bg-red-600 text-white text-xs font-bold px-2.5 py-1 rounded-full">Alto Riesgo</span>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-900 mb-2">Aedes aegypti</h3>
+                            <p class="text-xs text-slate-500 mb-3">Vector de Dengue, Zika y Chikungunya</p>
+                            <p class="text-xs text-slate-600 leading-relaxed mb-4">Reconocible por sus marcas blancas en forma de lira en el tórax y anillos blancos en sus patas. De hábitos diurnos.</p>
+                        </div>
+                        <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+                            <span><i class="fa-regular fa-clock text-emerald-600"></i> Picadura: Mañana / Atardecer</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mosquito 2 -->
+                <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm flex flex-col">
+                    <div class="relative h-48 bg-slate-900">
+                        <img src="https://images.unsplash.com/photo-1509070016581-915335454d19?auto=format&fit=crop&w=600&q=80" alt="Culex" class="w-full h-full object-cover opacity-90">
+                        <span class="absolute top-3 left-3 bg-amber-600 text-white text-xs font-bold px-2.5 py-1 rounded-full">Común</span>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-900 mb-2">Culex pipiens</h3>
+                            <p class="text-xs text-slate-500 mb-3">Mosquito común de ciudad</p>
+                            <p class="text-xs text-slate-600 leading-relaxed mb-4">De color pardo pálido. Se reproduce activamente en aguas estancadas urbanas y es el responsable del característico zumbido nocturno.</p>
+                        </div>
+                        <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+                            <span><i class="fa-regular fa-clock text-emerald-600"></i> Picadura: Nocturna</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mosquito 3 -->
+                <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm flex flex-col">
+                    <div class="relative h-48 bg-slate-900">
+                        <img src="https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=600&q=80" alt="Anopheles" class="w-full h-full object-cover opacity-90">
+                        <span class="absolute top-3 left-3 bg-yellow-600 text-white text-xs font-bold px-2.5 py-1 rounded-full">Riesgo Malaria</span>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-900 mb-2">Anopheles spp.</h3>
+                            <p class="text-xs text-slate-500 mb-3">Transmisor de la Malaria</p>
+                            <p class="text-xs text-slate-600 leading-relaxed mb-4">Descansa en un ángulo característico de 45 grados con respecto a la superficie. Habita en zonas húmedas y rurales.</p>
+                        </div>
+                        <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+                            <span><i class="fa-regular fa-clock text-emerald-600"></i> Picadura: Crepúsculo</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Protection Calculator Section -->
+        <section id="calculadora" class="py-16 bg-gradient-to-br from-emerald-900 via-forest to-slate-900 text-white">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-2xl mx-auto mb-10">
+                    <span class="text-emerald-300 font-bold text-xs uppercase tracking-wider">Herramienta Interactiva</span>
+                    <h2 class="text-2xl sm:text-4xl font-bold mt-1">Calculadora de Aplicación NAVI-BIOREPEL</h2>
+                    <p class="text-emerald-100/80 text-sm mt-2">Calcula la frecuencia de re-aplicación ideal según tu nivel de actividad y entorno ambiental.</p>
+                </div>
+
+                <div class="bg-white/10 backdrop-blur-md p-6 sm:p-8 rounded-3xl border border-white/10 shadow-2xl">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                        <div>
+                            <label class="block text-xs font-semibold text-emerald-200 mb-2">Entorno:</label>
+                            <select id="calcEnvironment" onchange="calculateProtection()" class="w-full bg-slate-800/90 text-white border border-emerald-500/30 rounded-xl p-3 text-sm focus:outline-none focus:border-emerald-400">
+                                <option value="1">Urbano / Interiores</option>
+                                <option value="0.8">Jardín / Bosque templado</option>
+                                <option value="0.6">Selva Húmeda / Zona Costera</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-emerald-200 mb-2">Actividad Física / Sudoración:</label>
+                            <select id="calcActivity" onchange="calculateProtection()" class="w-full bg-slate-800/90 text-white border border-emerald-500/30 rounded-xl p-3 text-sm focus:outline-none focus:border-emerald-400">
+                                <option value="1">Baja (Descanso / Oficina)</option>
+                                <option value="0.85">Moderada (Caminata / Senderismo)</option>
+                                <option value="0.7">Alta (Deporte / Ejercicio Intenso)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="bg-emerald-950/60 p-6 rounded-2xl border border-emerald-500/30 text-center">
+                        <span class="block text-xs text-emerald-300 uppercase tracking-wider font-semibold">Tiempo Estimado de Protección Continua</span>
+                        <div id="protectionTime" class="text-4xl sm:text-5xl font-black text-amber-400 my-2">4 Horas</div>
+                        <p id="protectionAdvice" class="text-xs text-emerald-100/70">Recomendación: Aplicar uniformemente en zonas expuestas evitando ojos y boca.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Blog Articles Section -->
+        <section id="articulos" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center mb-10">
+                <div>
+                    <span class="text-emerald-700 font-bold text-xs uppercase tracking-wider">Artículos & Publicaciones</span>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-slate-900">Blog Científico y Tutoriales</h2>
+                </div>
+                <button onclick="openNewPostModal()" class="px-4 py-2 bg-emerald-800 text-white rounded-lg text-sm font-semibold hover:bg-emerald-900 transition-colors">
+                    + Nuevo Artículo
+                </button>
+            </div>
+
+            <!-- Posts Grid -->
+            <div id="postsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Posts will be rendered via JavaScript -->
+            </div>
+        </section>
+
+        <!-- Interactive Comments & Discussion -->
+        <section class="py-16 bg-slate-100 border-t border-slate-200">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h3 class="text-2xl font-bold text-slate-900 mb-6">Comentarios de la Comunidad</h3>
+                
+                <!-- Comment Form -->
+                <form onsubmit="handleAddComment(event)" class="mb-8 bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                        <input type="text" id="commentAuthor" placeholder="Tu Nombre" required class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-emerald-600">
+                        <input type="email" id="commentEmail" placeholder="Tu Correo (no se publicará)" required class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-emerald-600">
+                    </div>
+                    <textarea id="commentText" rows="3" placeholder="Escribe tu consulta o experiencia con repelentes biológicos..." required class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-emerald-600 mb-4"></textarea>
+                    <button type="submit" class="px-5 py-2.5 bg-emerald-800 text-white font-semibold text-sm rounded-xl hover:bg-emerald-900 transition-colors">
+                        Publicar Comentario
+                    </button>
+                </form>
+
+                <!-- Comments List -->
+                <div id="commentsList" class="space-y-4">
+                    <!-- Dynamic comments list -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="bg-slate-900 text-white border-t border-slate-800 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div class="md:col-span-2">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-lg bg-emerald-700 flex items-center justify-center text-white">
+                            <i class="fa-solid fa-leaf text-xl"></i>
+                        </div>
+                        <span class="text-xl font-extrabold tracking-tight">NAVI-BIOREPEL</span>
+                    </div>
+                    <p class="text-xs text-slate-400 leading-relaxed max-w-sm">
+                        Plataforma de difusión biotecnológica orientada a la investigación y desarrollo de repelentes ecológicos de alta efectividad.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="text-xs font-bold text-emerald-400 uppercase tracking-wider mb-4">Navegación</h4>
+                    <ul class="space-y-2 text-xs text-slate-300">
+                        <li><a href="#inicio" class="hover:text-white">Inicio</a></li>
+                        <li><a href="#investigacion" class="hover:text-white">Investigación</a></li>
+                        <li><a href="#ingredientes" class="hover:text-white">Fórmula</a></li>
+                        <li><a href="#mosquitos" class="hover:text-white">Guía de Mosquitos</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-xs font-bold text-emerald-400 uppercase tracking-wider mb-4">Edición de Contenido</h4>
+                    <p class="text-xs text-slate-400 mb-3">Puedes personalizar las entradas e información del blog cuando gustes.</p>
+                    <button onclick="resetToDefaultData()" class="text-xs text-amber-400 hover:text-amber-300 underline">
+                        Restablecer Contenido Inicial
+                    </button>
+                </div>
+            </div>
+
+            <div class="pt-8 border-t border-slate-800 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-500 gap-4">
+                <p>&copy; 2026 NAVI-BIOREPEL Project. Todos los derechos reservados.</p>
+                <div class="flex gap-4 text-slate-400">
+                    <a href="#" class="hover:text-emerald-400"><i class="fa-brands fa-github text-base"></i></a>
+                    <a href="#" class="hover:text-emerald-400"><i class="fa-brands fa-twitter text-base"></i></a>
+                    <a href="#" class="hover:text-emerald-400"><i class="fa-solid fa-flask text-base"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Create / Edit Article Modal -->
+    <div id="postModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-white rounded-2xl max-w-xl w-full p-6 sm:p-8 shadow-2xl border border-slate-100 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h3 id="modalTitle" class="text-xl font-bold text-slate-900">Crear Nuevo Artículo</h3>
+                <button onclick="closePostModal()" class="text-gray-400 hover:text-gray-600">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+
+            <form id="postForm" onsubmit="handleSavePost(event)" class="space-y-4">
+                <input type="hidden" id="postId">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Título del Artículo</label>
+                    <input type="text" id="postTitleInput" required class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-emerald-600">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Categoría</label>
+                    <select id="postCategoryInput" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-emerald-600">
+                        <option value="Investigación">Investigación</option>
+                        <option value="Botánica">Botánica</option>
+                        <option value="Prevención">Prevención</option>
+                        <option value="Ecología">Ecología</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">URL de Imagen (Unsplash u otra)</label>
+                    <input type="url" id="postImageInput" placeholder="https://images.unsplash.com/..." required class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-emerald-600">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Resumen Corto</label>
+                    <textarea id="postExcerptInput" rows="2" required class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-emerald-600"></textarea>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Contenido Completo</label>
+                    <textarea id="postContentInput" rows="5" required class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-emerald-600"></textarea>
+                </div>
+
+                <div class="flex justify-end gap-3 pt-4">
+                    <button type="button" onclick="closePostModal()" class="px-4 py-2 bg-slate-200 text-slate-700 rounded-xl text-sm font-semibold">Cancelar</button>
+                    <button type="submit" class="px-5 py-2 bg-emerald-800 text-white rounded-xl text-sm font-semibold hover:bg-emerald-900">Guardar Post</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Initial Default Blog Posts
+        const defaultPosts = [
+            {
+                id: "1",
+                title: "Eficacia comparativa entre DEET y Citronelal Bio-sintetizado",
+                category: "Investigación",
+                date: "20 Sep 2026",
+                image: "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=600&q=80",
+                excerpt: "Análisis de laboratorio sobre el tiempo de repelencia activa y los efectos secundarios en la piel sensible.",
+                content: "Estudios comparativos han determinado que las concentraciones balanceadas de citronelal microencapsulado otorgan hasta 6 horas de protección efectiva, eliminando los riesgos de toxicidad tópica asociados a los insecticidas sintéticos convencionales."
+            },
+            {
+                id: "2",
+                title: "Historia del Uso de Botánica Repelente en la Amazonía",
+                category: "Botánica",
+                date: "15 Sep 2026",
+                image: "https://images.unsplash.com/photo-1509070016581-915335454d19?auto=format&fit=crop&w=600&q=80",
+                excerpt: "Cómo las comunidades ancestrales utilizaban resinas y hojas machacadas para repeler insectos transmisores.",
+                content: "El conocimiento de plantas como el achiote y el eucalipto silvestre sirvió como punto de partida para la extracción de aceites esenciales refinados mediante destilación al vapor en nuestro laboratorio."
+            },
+            {
+                id: "3",
+                title: "Prevención de Arbovirosis en Zonas Urbanas",
+                category: "Prevención",
+                date: "10 Sep 2026",
+                image: "https://images.unsplash.com/photo-1584467735871-8e85353a8413?auto=format&fit=crop&w=600&q=80",
+                excerpt: "Medidas complementarias al uso del repelente para la eliminación de criaderos en el hogar.",
+                content: "El uso de NAVI-BIOREPEL debe ser acompañado de hábitos preventivos en el hogar: eliminación de floreros con agua estancada, limpieza de canaletas y colocación de mallas mosquiteras."
+            }
+        ];
+
+        // Initial Comments
+        const defaultComments = [
+            {
+                author: "Dra. Elena Ramos",
+                date: "Hace 2 días",
+                text: "Excelente enfoque al combinar etnobotánica con métodos modernos de destilación. ¿Qué tipo de fijador natural utilizan para prevenir la evaporación rápida del terpeno?"
+            },
+            {
+                author: "Carlos M.",
+                date: "Hace 1 semana",
+                text: "Lo he probado en zonas húmedas de senderismo y la sensación en piel es mil veces mejor que los aerosoles comerciales. Muy recomendado."
+            }
+        ];
+
+        let isEditMode = false;
+        let posts = [];
+        let comments = [];
+
+        // Load data on window load
+        window.onload = function() {
+            loadPosts();
+            loadComments();
+            loadSavedEditableContent();
+            calculateProtection();
+        };
+
+        // Load posts from localStorage or default
+        function loadPosts() {
+            const stored = localStorage.getItem('navi_posts');
+            if (stored) {
+                posts = JSON.parse(stored);
+            } else {
+                posts = [...defaultPosts];
+                localStorage.setItem('navi_posts', JSON.stringify(posts));
+            }
+            renderPosts();
+        }
+
+        // Render posts inside the container
+        function renderPosts() {
+            const container = document.getElementById('postsContainer');
+            container.innerHTML = posts.map(post => `
+                <article class="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-md transition-all flex flex-col">
+                    <img src="${post.image}" alt="${post.title}" class="h-48 w-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1584467735871-8e85353a8413?auto=format&fit=crop&w=600&q=80'">
+                    <div class="p-6 flex-grow flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-center text-xs text-slate-500 mb-2">
+                                <span class="bg-emerald-50 text-emerald-700 font-bold px-2.5 py-1 rounded-md border border-emerald-100">${post.category}</span>
+                                <span><i class="fa-regular fa-calendar"></i> ${post.date}</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-slate-900 mb-2 leading-snug">${post.title}</h3>
+                            <p class="text-xs text-slate-600 leading-relaxed mb-4">${post.excerpt}</p>
+                        </div>
+                        <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
+                            <button onclick="editPost('${post.id}')" class="text-xs text-amber-600 font-semibold hover:text-amber-700 flex items-center gap-1">
+                                <i class="fa-solid fa-pen"></i> Editar
+                            </button>
+                            <button onclick="deletePost('${post.id}')" class="text-xs text-red-500 hover:text-red-700 font-semibold flex items-center gap-1">
+                                <i class="fa-solid fa-trash"></i> Eliminar
+                            </button>
+                        </div>
+                    </div>
+                </article>
+            `).join('');
+        }
+
+        // Toggle Edit Mode for inline text
+        function toggleEditMode() {
+            isEditMode = !isEditMode;
+            const btn = document.getElementById('editToggleBtn');
+            const btnText = document.getElementById('editBtnText');
+            const banner = document.getElementById('editBanner');
+            const editables = document.querySelectorAll('.editable');
+
+            if (isEditMode) {
+                btn.classList.remove('bg-amber-500', 'hover:bg-amber-600');
+                btn.classList.add('bg-red-600', 'hover:bg-red-700');
+                btnText.innerText = 'Desactivar Edición';
+                banner.classList.remove('hidden');
+
+                editables.forEach(el => {
+                    el.contentEditable = 'true';
+                    el.classList.add('editable-highlight');
+                });
+            } else {
+                btn.classList.remove('bg-red-600', 'hover:bg-red-700');
+                btn.classList.add('bg-amber-500', 'hover:bg-amber-600');
+                btnText.innerText = 'Modo Edición';
+                banner.classList.add('hidden');
+
+                editables.forEach(el => {
+                    el.contentEditable = 'false';
+                    el.classList.remove('editable-highlight');
+                });
+
+                saveAllChanges();
+            }
+        }
+
+        // Save inline modifications to localStorage
+        function saveAllChanges() {
+            const editables = document.querySelectorAll('.editable');
+            const savedData = {};
+            editables.forEach(el => {
+                if (el.id) {
+                    savedData[el.id] = el.innerHTML;
+                }
+            });
+            localStorage.setItem('navi_inline_edits', JSON.stringify(savedData));
+        }
+
+        // Load saved inline modifications
+        function loadSavedEditableContent() {
+            const stored = localStorage.getItem('navi_inline_edits');
+            if (stored) {
+                const savedData = JSON.parse(stored);
+                Object.keys(savedData).forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) {
+                        el.innerHTML = savedData[id];
+                    }
+                });
+            }
+        }
+
+        // Modal operations for posts
+        function openNewPostModal() {
+            document.getElementById('modalTitle').innerText = 'Crear Nuevo Artículo';
+            document.getElementById('postForm').reset();
+            document.getElementById('postId').value = '';
+            document.getElementById('postModal').classList.remove('hidden');
+        }
+
+        function closePostModal() {
+            document.getElementById('postModal').classList.add('hidden');
+        }
+
+        function handleSavePost(event) {
+            event.preventDefault();
+            const id = document.getElementById('postId').value;
+            const title = document.getElementById('postTitleInput').value;
+            const category = document.getElementById('postCategoryInput').value;
+            const image = document.getElementById('postImageInput').value;
+            const excerpt = document.getElementById('postExcerptInput').value;
+            const content = document.getElementById('postContentInput').value;
+
+            if (id) {
+                // Edit existing
+                const index = posts.findIndex(p => p.id === id);
+                if (index !== -1) {
+                    posts[index] = { ...posts[index], title, category, image, excerpt, content };
+                }
+            } else {
+                // Create new
+                const newPost = {
+                    id: Date.now().toString(),
+                    title,
+                    category,
+                    date: new Date().toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' }),
+                    image,
+                    excerpt,
+                    content
+                };
+                posts.unshift(newPost);
+            }
+
+            localStorage.setItem('navi_posts', JSON.stringify(posts));
+            renderPosts();
+            closePostModal();
+        }
+
+        function editPost(id) {
+            const post = posts.find(p => p.id === id);
+            if (!post) return;
+
+            document.getElementById('modalTitle').innerText = 'Editar Artículo';
+            document.getElementById('postId').value = post.id;
+            document.getElementById('postTitleInput').value = post.title;
+            document.getElementById('postCategoryInput').value = post.category;
+            document.getElementById('postImageInput').value = post.image;
+            document.getElementById('postExcerptInput').value = post.excerpt;
+            document.getElementById('postContentInput').value = post.content;
+
+            document.getElementById('postModal').classList.remove('hidden');
+        }
+
+        function deletePost(id) {
+            if (confirm('¿Estás seguro de que deseas eliminar este artículo?')) {
+                posts = posts.filter(p => p.id !== id);
+                localStorage.setItem('navi_posts', JSON.stringify(posts));
+                renderPosts();
+            }
+        }
+
+        // Interactive Calculator logic
+        function calculateProtection() {
+            const env = parseFloat(document.getElementById('calcEnvironment').value);
+            const act = parseFloat(document.getElementById('calcActivity').value);
+            
+            const baseHours = 5;
+            const totalHours = (baseHours * env * act).toFixed(1);
+
+            document.getElementById('protectionTime').innerText = `${totalHours} Horas`;
+            
+            const adviceEl = document.getElementById('protectionAdvice');
+            if (totalHours < 3) {
+                adviceEl.innerText = "Recomendación: Re-aplicar con mayor frecuencia debido al nivel de sudoración o humedad ambiente.";
+            } else {
+                adviceEl.innerText = "Recomendación: Cobertura óptima. Aplicar uniformemente en piel expuesta.";
+            }
+        }
+
+        // Comments System
+        function loadComments() {
+            const stored = localStorage.getItem('navi_comments');
+            if (stored) {
+                comments = JSON.parse(stored);
+            } else {
+                comments = [...defaultComments];
+            }
+            renderComments();
+        }
+
+        function renderComments() {
+            const list = document.getElementById('commentsList');
+            list.innerHTML = comments.map(c => `
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="font-bold text-sm text-slate-900">${c.author}</span>
+                        <span class="text-xs text-slate-400">${c.date}</span>
+                    </div>
+                    <p class="text-xs text-slate-600 leading-relaxed">${c.text}</p>
+                </div>
+            `).join('');
+        }
+
+        function handleAddComment(e) {
+            e.preventDefault();
+            const author = document.getElementById('commentAuthor').value;
+            const text = document.getElementById('commentText').value;
+
+            comments.unshift({
+                author,
+                date: "Hace un momento",
+                text
+            });
+
+            localStorage.setItem('navi_comments', JSON.stringify(comments));
+            renderComments();
+
+            document.getElementById('commentAuthor').value = '';
+            document.getElementById('commentEmail').value = '';
+            document.getElementById('commentText').value = '';
+        }
+
+        function resetToDefaultData() {
+            if (confirm('¿Deseas restaurar el contenido inicial del blog? Se borrarán tus ediciones locales.')) {
+                localStorage.removeItem('navi_posts');
+                localStorage.removeItem('navi_inline_edits');
+                localStorage.removeItem('navi_comments');
+                location.reload();
+            }
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+    </script>
+</body>
+</html>
